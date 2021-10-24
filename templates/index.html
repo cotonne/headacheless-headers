@@ -1,0 +1,58 @@
+{% extends "layout/default.html" %}
+{% block title %}Index{% endblock %}
+{% block head %}
+{{ super() }}
+
+{% endblock %}
+{% block content %}
+<h1>Cure me!</h1>
+
+<h1>The cookie jar</h1>
+Les cookies sont utilisés pour conserver des informations entre le serveur et le client.
+Lorsque le client se présente, les cookies sont renvoyés au serveur qui peut alors continuer
+ces traitements à partir des informations reçues. Les cookies contiennent généralement des
+informations sensibles comme l'identifiant de session. C'est pourquoi il est nécessaire de
+bien comprendre comment fonctionne l'en-tête <strong>Set-Cookie</strong> et le configurer
+correctement.
+<ul class="list-group">
+  <li class="list-group-item">
+    <a href="cookie-stealing">Cookie stealing</a>
+  </li>
+  <li class="list-group-item">
+    <!-- TODO: secure -->
+    secure
+  </li>
+  <li class="list-group-item">
+    <a href="restricted/cookie-scope">Cookie scope</a>
+  </li>
+  <li class="list-group-item">
+    <!-- TODO: SameSite -->
+    SameSite
+  </li>
+</ul>
+
+<h1>CSRF</h1>
+<!-- TODO: CSRF & CSRF Cookie/Double Submit Cookie -->
+<!-- TODO: CORS -->
+<!-- TODO: Sec Headers -->
+
+<h1>XSS</h1>
+<ul class="list-group">
+  <li class="list-group-item">
+    <a href="xss-injection">XSS Injection</a>
+  </li>
+  <li class="list-group-item">
+    <a href="css-injection">CSS Injection</a>
+  </li>
+  <li class="list-group-item">
+    <a href="cdn-hacked">My CDN has been hacked!</a>
+  </li>
+</ul>
+
+<h1>HTTPS ne suffit plus</h1>
+<!-- TODO : HSTS -->
+<!-- TODO : Certificate Transparency -->
+
+<h1>Unknown-unknown</h1>
+<!-- TODO: COOP/COEP/CORP -->
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "layout/default.html" %}
+{% block title %}Cookie stealing{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+<h1>Cookie Scope - Attacker page</h1>
+
+<p>
+    Am I able to use your session?
+    <div class="flash">{{ result }}</div>
+</p>
+
+</div>
+{% endblock %}

