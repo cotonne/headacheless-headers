@@ -6,76 +6,71 @@
 {% block content %}
 <h1>CSRF</h1>
 
-<p>
-    Cross-Site Request Forgery ([XC]SRF) est une attaque où un attaque arrive
-    à effectuer une action sur un site sur lequel un utilisateur est authentifé.
-    Vous êtes connecté sur cette page.
-    Imaginons que:
-<ul>
-    <li>Le site propose une API pour faire un transfert (ici:
-        <code>GET /csrf-token/transfer-money/account/attacker</code>
-        )
-    </li>
-    <li>L'attaquant a profité d'une faille pour inclure l'image de son choix</li>
-</ul>
-L'image en question qui permet de réaliser l'attaque:
-<img src="csrf-token/transfer-money/account/attacker" />
-</p>
-<p>
-    Une des premières actions est d'empêcher les requêtes sensibles de pouvoir être
-    effectuer via le verbe <strong>GET</strong>.
-    Imaginons que l'utilisateur soit amené sur le site de l'attaquant (par exemple,
-    via un email de phising). Le site de l'attaquant est disponible en cliquant sur
-    <a href="http://attack.host/csrf">ce lien</a>.
-</p>
+
 
 <p>
-    Corrigez le problème en modifiant le fichier <strongle>unsecure.py</strong>:
-        <ul>
-            <li>Accepter uniquement des requêtes de type GET. Supprimer la fonction
-                <strong>csrf_token_transfer_money</strong>
-            </li>
-            <li>Inclure un token CSRF. Pour ce faire, nous utiliserons <a
-                    href="https://flask-wtf.readthedocs.io/en/0.15.x/csrf/#html-forms">Flask WTF</a></li>
-        </ul>
-        Utiliser le formulaire suivant pour tester
-        <div class="container px-4 mt-3 mb-3">
-            <form method="post" action="transfer-money/account/attacker">
-                <input type="hidden" name="csrf_token" value="TODO: csrf_token"></input>
-                <div class="mb-3 row">
-                    <label for="from" class="col-sm-2 form-label">
-                        From:
-                    </label>
-                    <div class="col-sm-10">
-                        <input type="text" name="from" class="form-control" id="from"></input>
-                    </div>
-                </div>
-                <div class="mb-3 row">
-                    <label for="to" class="col-sm-2 form-label">
-                        To:
-                    </label>
-                    <div class="col-sm-10">
-                        <input type="text" name="from" class="form-control" id="to"></input>
-                    </div>
-                </div>
+    Le jeton anti-CSRF est enregistré dans la session. Sa valeur est vérifiée
+    avec le jeton fourni quand le formulaire est envoyé.
+    De nombreuses applications sont sans état (<strong>stateless</strong>) et
+    ne dépendent plus d'un serveur gérant une session.
+</p>
 
-                <div class="mb-3 row">
-                    <label for="amount" class="col-sm-2 form-label">
-                        Amount:
-                    </label>
-                    <div class="col-sm-10">
-                        <input type="number" min="1" name="from" class="form-control" id="amount"></input>
-                    </div>
-                </div>
-            </form>
+{% if token == "" %}
+{% if result == "Success" %}
+<div class="alert alert-success" role="alert">
+    Le formulaire a bien été accepté!
+</div>
+{% else %}
+<div class="alert alert-danger" role="alert">
+    Le formulaire a été rejeté!
+</div>
+{% endif %}
+{% else %}
+
+<p>
+    Utiliser le formulaire suivant pour tester le double submit cookie:
+<div class="container px-4 mt-3 mb-3">
+    <form method="post" action="{{ token }}">
+        <div class="mb-3 row">
+            <label for="from" class="col-sm-2 form-label">
+                From:
+            </label>
+            <div class="col-sm-10">
+                <input type="text" name="from" class="form-control" id="from"></input>
+            </div>
         </div>
+        <div class="mb-3 row">
+            <label for="to" class="col-sm-2 form-label">
+                To:
+            </label>
+            <div class="col-sm-10">
+                <input type="text" name="from" class="form-control" id="to"></input>
+            </div>
+        </div>
+
+        <div class="mb-3 row">
+            <label for="amount" class="col-sm-2 form-label">
+                Amount:
+            </label>
+            <div class="col-sm-10">
+                <input type="number" min="1" name="from" class="form-control" id="amount"></input>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <input class="btn btn-primary" type="submit" value="Submit">
+        </div>
+    </form>
+</div>
 </p>
+{% endif %}
 <p>
 <h2>Ressources</h2>
 <ul>
-    <li><a href="https://owasp.org/www-community/attacks/csrf">Présentation de l'attaque CSRF</a></li>
-    <li><a href="https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html">Cross-Site
-            Request Forgery Prevention Cheat Sheet</a></li>
+    <li><a
+            href="https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html#double-submit-cookie">Cross-Site
+            Double Submit Cookie - Request Forgery Prevention Cheat Sheet</a></li>
+    <li><a href="https://owasp.org/www-pdf-archive/David_Johansson-Double_Defeat_of_Double-Submit_Cookie.pdf">Double
+            Submit Cookie</a></li>
 </ul>
 </p>
 <div class="accordion" id="accordionExample">
@@ -89,7 +84,7 @@ L'image en question qui permet de réaliser l'attaque:
         <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
             data-bs-parent="#accordionExample">
             <div class="accordion-body">
-                <strong>Subresource Integrity</strong> permet de s'assurer que .
+                <!-- TODO -->
             </div>
         </div>
     </div>

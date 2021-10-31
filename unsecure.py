@@ -1,6 +1,7 @@
 import os
 from flask import Flask, jsonify, render_template, make_response, request, send_from_directory
 import uuid
+import hmac
 
 app = Flask(__name__)
 app.jinja_env.cache = None
@@ -35,7 +36,7 @@ def cookie_scope():
 def csrf_token():
     response = make_response(render_template('csrf-token.html'))
     response.set_cookie('SESSION_ID_CSRF', str(uuid.uuid4()))
-    return render_template('csrf-token.html')
+    return response
 
 
 @app.route("/csrf-token/transfer-money/account/attacker")
@@ -58,9 +59,33 @@ def POST_csrf_token_transfer_money():
     }
 
 
-@app.route("/csrf-double-submit")
-def csrf_double_submit():
-    return render_template('csrf-double-submit.html')
+SECRET = b"s3cr3t"
+
+
+@app.route("/csrf-double-submit", defaults={'token': None})
+@app.route("/csrf-double-submit/<token>", methods=['GET', 'POST'])
+def csrf_double_submit(token):
+    h = hmac.new(SECRET, digestmod='sha256')
+    if request.method == 'GET':
+        new_token = str(uuid.uuid4())
+        h.update(new_token.encode('utf-8'))
+        response = make_response(render_template(
+            'csrf-double-submit.html', token=new_token, result=""))
+        response.set_cookie('SESSION_ID_CSRF', h.hexdigest())
+        return response
+
+    result = 'Failure'
+    print(token)
+    if token is not None:
+        cookie_token = request.cookies['SESSION_ID_CSRF']
+        h.update(token.encode('utf-8'))
+        print("Comparing")
+        print(cookie_token)
+        print(h.hexdigest())
+        if hmac.compare_digest(
+                cookie_token, h.hexdigest()):
+            result = 'Success'
+    return render_template('csrf-double-submit.html', token="", result=result)
 
 
 @app.route("/cookie-scope-attack")
