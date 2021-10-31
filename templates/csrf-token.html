@@ -1,0 +1,97 @@
+{% extends "layout/default.html" %}
+{% block title %}CSRF{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+<h1>CSRF</h1>
+
+<p>
+    Cross-Site Request Forgery ([XC]SRF) est une attaque où un attaque arrive
+    à effectuer une action sur un site sur lequel un utilisateur est authentifé.
+    Vous êtes connecté sur cette page.
+    Imaginons que:
+<ul>
+    <li>Le site propose une API pour faire un transfert (ici:
+        <code>GET /csrf-token/transfer-money/account/attacker</code>
+        )
+    </li>
+    <li>L'attaquant a profité d'une faille pour inclure l'image de son choix</li>
+</ul>
+L'image en question qui permet de réaliser l'attaque:
+<img src="csrf-token/transfer-money/account/attacker" />
+</p>
+<p>
+    Une des premières actions est d'empêcher les requêtes sensibles de pouvoir être
+    effectuer via le verbe <strong>GET</strong>.
+    Imaginons que l'utilisateur soit amené sur le site de l'attaquant (par exemple,
+    via un email de phising). Le site de l'attaquant est disponible en cliquant sur
+    <a href="http://attack.host/csrf">ce lien</a>.
+</p>
+
+<p>
+    Corrigez le problème en modifiant le fichier <strongle>unsecure.py</strong>:
+        <ul>
+            <li>Accepter uniquement des requêtes de type GET. Supprimer la fonction
+                <strong>csrf_token_transfer_money</strong>
+            </li>
+            <li>Inclure un token CSRF. Pour ce faire, nous utiliserons <a
+                    href="https://flask-wtf.readthedocs.io/en/0.15.x/csrf/#html-forms">Flask WTF</a></li>
+        </ul>
+        Utiliser le formulaire suivant pour tester
+        <div class="container px-4 mt-3 mb-3">
+            <form method="post" action="transfer-money/account/attacker">
+                <input type="hidden" name="csrf_token" value="TODO: csrf_token"></input>
+                <div class="mb-3 row">
+                    <label for="from" class="col-sm-2 form-label">
+                        From:
+                    </label>
+                    <div class="col-sm-10">
+                        <input type="text" name="from" class="form-control" id="from"></input>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label for="to" class="col-sm-2 form-label">
+                        To:
+                    </label>
+                    <div class="col-sm-10">
+                        <input type="text" name="from" class="form-control" id="to"></input>
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label for="amount" class="col-sm-2 form-label">
+                        Amount:
+                    </label>
+                    <div class="col-sm-10">
+                        <input type="number" min="1" name="from" class="form-control" id="amount"></input>
+                    </div>
+                </div>
+            </form>
+        </div>
+</p>
+<p>
+<h2>Ressources</h2>
+<ul>
+    <li><a href="https://owasp.org/www-community/attacks/csrf">Présentation de l'attaque CSRF</a></li>
+    <li><a href="https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html">Cross-Site
+            Request Forgery Prevention Cheat Sheet</a></li>
+</ul>
+</p>
+<div class="accordion" id="accordionExample">
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                aria-expanded="true" aria-controls="collapseOne">
+                Solution
+            </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+            data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+                <strong>Subresource Integrity</strong> permet de s'assurer que .
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,8 +1,15 @@
+import os
 from flask import Flask, jsonify, render_template, make_response, request, send_from_directory
 import uuid
 
 app = Flask(__name__)
 app.jinja_env.cache = None
+
+# from flask_wtf.csrf import CSRFProtect
+# TODO: CSRF
+# SECRET_KEY = os.urandom(32)
+# app.config['SECRET_KEY'] = SECRET_KEY
+# csrf = CSRFProtect(app)
 
 
 @app.route("/")
@@ -22,6 +29,38 @@ def cookie_scope():
     response = make_response(render_template('restricted/cookie-scope.html'))
     response.set_cookie('RESTRICTED_SESSION_ID', str(uuid.uuid4()))
     return response
+
+
+@app.route("/csrf-token")
+def csrf_token():
+    response = make_response(render_template('csrf-token.html'))
+    response.set_cookie('SESSION_ID_CSRF', str(uuid.uuid4()))
+    return render_template('csrf-token.html')
+
+
+@app.route("/csrf-token/transfer-money/account/attacker")
+def csrf_token_transfer_money():
+    return {
+        "from": "account",
+        "to": "attacker",
+        "status": "transfer done!"
+    }
+
+
+@app.route("/csrf-token/transfer-money")
+def POST_csrf_token_transfer_money():
+    from_account = request.form.get("from")
+    to_account = request.form.get("to")
+    return {
+        "status": "transfer done!",
+        "from": from_account,
+        "to": to_account
+    }
+
+
+@app.route("/csrf-double-submit")
+def csrf_double_submit():
+    return render_template('csrf-double-submit.html')
 
 
 @app.route("/cookie-scope-attack")
