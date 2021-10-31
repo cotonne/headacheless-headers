@@ -1,4 +1,3 @@
-import os
 from flask import Flask, jsonify, render_template, make_response, request, send_from_directory
 import uuid
 import hmac
@@ -108,7 +107,13 @@ def cdn_hacked():
     return render_template('cdn-hacked.html')
 
 
+@app.route("/hsts")
+def hsts():
+    return render_template('cdn-hacked.html')
+
 # UTILS
+
+
 @app.route("/random")
 def random():
     return jsonify({"random": str(uuid.uuid4())})
