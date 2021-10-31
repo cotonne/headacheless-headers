@@ -1,3 +1,4 @@
+{% import 'macros/macros.html' as macro %}
 <!doctype html>
 <html lang="en">
 
@@ -18,7 +19,8 @@
     <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
       <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
         <svg class="bi me-2" width="40" height="32">
-          <use xlink:href="#bootstrap" /></svg>
+          <use xlink:href="#bootstrap" />
+        </svg>
         <span class="fs-4">Unsecure Server!</span>
       </a>
 
@@ -32,17 +34,22 @@
     </header>
   </div>
 
-  <div id="content">{% block content %}{% endblock %}</div>
+  <div class="container">
+    {% block content %}{% endblock %}
+  </div>
   <div id="footer">
     <div class="d-flex justify-content-between py-4 my-4 border-top">
       <p>&copy; 2021 Company, Inc. All rights reserved.</p>
       <ul class="list-unstyled d-flex">
         <li class="ms-3"><a class="link-dark" href="#"><svg class="bi" width="24" height="24">
-              <use xlink:href="#twitter" /></svg></a></li>
+              <use xlink:href="#twitter" />
+            </svg></a></li>
         <li class="ms-3"><a class="link-dark" href="#"><svg class="bi" width="24" height="24">
-              <use xlink:href="#instagram" /></svg></a></li>
+              <use xlink:href="#instagram" />
+            </svg></a></li>
         <li class="ms-3"><a class="link-dark" href="#"><svg class="bi" width="24" height="24">
-              <use xlink:href="#facebook" /></svg></a></li>
+              <use xlink:href="#facebook" />
+            </svg></a></li>
       </ul>
     </div>
   </div>

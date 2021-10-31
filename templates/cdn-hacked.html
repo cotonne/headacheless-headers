@@ -26,20 +26,8 @@
     (Ne remplacer pas jquery.js par jquery-original.js).
 </p>
 
-<div class="accordion" id="accordionExample">
-    <div class="accordion-item">
-        <h2 class="accordion-header" id="headingOne">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
-                aria-expanded="true" aria-controls="collapseOne">
-                Solution
-            </button>
-        </h2>
-        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
-            data-bs-parent="#accordionExample">
-            <div class="accordion-body">
-                <strong>Subresource Integrity</strong> permet de s'assurer que .
-            </div>
-        </div>
-    </div>
-</div>
+{{ macro.solution("""
+<strong>Subresource Integrity</strong> permet de s'assurer que la ressource chargée par
+la page n'a pas été modifée.
+""")}}
 {% endblock %}

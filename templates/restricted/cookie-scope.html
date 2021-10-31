@@ -7,7 +7,7 @@
 <h1>Cookie Scope</h1>
 
 <p>
-  Votre site a été piraté. Un attaquant a créé une page lui permettant d'intéragir 
+  Votre site a été piraté. Un attaquant a créé une page lui permettant d'intéragir
   avec la session. Cette page se trouve à la racine du site
 
   Ouvrez la console de développeur de votre navigateur et observez les requêtes produites
@@ -18,20 +18,7 @@
   Corrigez le problème en modifiant la méthode cookie_stealing dans le fichier unsecure.py
 </p>
 
-<div class="accordion" id="accordionExample">
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingOne">
-      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
-        aria-expanded="true" aria-controls="collapseOne">
-        Solution
-      </button>
-    </h2>
-    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
-      data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        Les paramètres de Set-Cookie à définir sont <strong>Domain</strong> et <strong>Path</strong>.
-      </div>
-    </div>
-  </div>
-</div>
+{{ macro.solution("""
+Les paramètres de Set-Cookie à définir sont <strong>Domain</strong> et <strong>Path</strong>.
+""")}}
 {% endblock %}
