@@ -1,0 +1,30 @@
+{% extends "layout/default.html" %}
+{% block title %}Cookie stealing{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+<h1>Secure</h1>
+
+<p>
+    Un cookie <code>SameSite</code> permet de réduire les risques liés à une
+    attaque CSRF.
+    Le cookie ne doit être envoyé au site uniquement si vous intéragissez
+    avec l'application Web de ce site. Si un autre site effectue une requête,
+    vers le site d'origine, le cookie ne sera pas envoyé.
+</p>
+<p>
+    Cliquer sur le <a href="http://attacker/same-site/">lien pour intéragir pour accéder au site de l'attaquant.
+        Puis, utiliser le formulaire suivant pour tester votre cookie</a>
+</p>
+
+<h2>Ressources</h2>
+<ul>
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies">SameSite sur le MDN</a></li>
+</ul>
+
+{{ macro.solution("""
+La directive <strong>SameSite</strong> avec la valeur <code>Strict</code> est ajoutée à la requête
+<code>Set-Cookie</code>.
+""")}}
+{% endblock %}

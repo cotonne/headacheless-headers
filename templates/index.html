@@ -8,33 +8,39 @@
 <div class="container">
   <div class="row mt-3">
     <div>
-      <h1>Cure me!</h1>
+      <h1>Présentation</h1>
+      <p>
+        Cette application contient plusieurs ateliers qui ont pour but d'expliquer
+        le but et l'usage des en-têtes HTTP. Chaque atelier aide à comprendre le
+        fonctionnement de l'en-tête, présente généralement une attaque et propose
+        des pistes pour fixer le problème.
+      </p>
     </div>
   </div>
 
   <div class="row mt-3">
     <div>
       <h1>The cookie jar</h1>
-      Les cookies sont utilisés pour conserver des informations entre le serveur et le client.
-      Lorsque le client se présente, les cookies sont renvoyés au serveur qui peut alors continuer
-      ces traitements à partir des informations reçues. Les cookies contiennent généralement des
-      informations sensibles comme l'identifiant de session. C'est pourquoi il est nécessaire de
-      bien comprendre comment fonctionne l'en-tête <strong>Set-Cookie</strong> et le configurer
-      correctement.
+      <p>
+        Les cookies sont utilisés pour conserver des informations entre le serveur et le client.
+        Lorsque le client se présente, les cookies sont renvoyés au serveur qui peut alors continuer
+        ces traitements à partir des informations reçues. Les cookies contiennent généralement des
+        informations sensibles comme l'identifiant de session. C'est pourquoi il est nécessaire de
+        bien comprendre comment fonctionne l'en-tête <strong>Set-Cookie</strong> et le configurer
+        correctement.
+      </p>
       <ul class="list-group">
         <li class="list-group-item">
           <a href="cookie-stealing">Cookie stealing</a>
         </li>
         <li class="list-group-item">
-          <!-- TODO: secure -->
-          secure
+          <a href="cookie-secure">Secure</a>
         </li>
         <li class="list-group-item">
           <a href="restricted/cookie-scope">Cookie scope</a>
         </li>
         <li class="list-group-item">
-          <!-- TODO: SameSite -->
-          SameSite
+          <a href="cookie-same-site">Same Site</a>
         </li>
       </ul>
     </div>
@@ -56,7 +62,7 @@
           <a href="cdn-hacked">My CDN has been hacked!</a>
         </li>
         <li class="list-group-item">
-          <a href="trusted-types">Trusted Types</a>
+          <a href="trusted-types?unsecure=I_m_not_secure">Trusted Types</a>
         </li>
       </ul>
     </div>
@@ -90,6 +96,15 @@
 
   <!-- TODO: CORS -->
   <!-- TODO: Sec Headers -->
+  <div class="row mt-3">
+    <div>
+      <h1>Sec Headers</h1>
+      <li class="list-group-item">
+        <a href="sec-headers">Sec Headers</a>
+      </li>
+    </div>
+  </div>
+
 
   <div class="row mt-3">
     <div>

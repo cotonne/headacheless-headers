@@ -1,0 +1,55 @@
+{% extends "layout/default.html" %}
+{% block title %}Cookie stealing{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+<h1>Trusted Types</h1>
+
+<p>
+    Trusted Types est un mécanisme expérimental dont le but est de réduire le risque d'une
+    attaque de type DOM XSS. Cela s'adresse notamment aux applications reposant massivement
+    sur du javascript.
+</p>
+
+<p>
+    Le paramètre <code>unsecure</code> dans l'URL est utilisé par le script
+    de la page <strong>trusted-types.html</strong>.
+    Pour ce faire:
+<ul>
+    <li>Ajouter l'en-tête trusted-types en modifiant la fonction <strong>trusted_types</strong> du fichier
+        <strong>unsecure.py</strong>.
+    </li>
+    <li>
+        Modifier le script de la page pour nettoyer (<strong>sanitize</strong>) la valeur reçue.
+        Vous pouvez vous appuyer sur les <a
+            href="https://w3c.github.io/webappsec-trusted-types/dist/spec/#policies-hdr">exemples de la norme</a>.
+    </li>
+</ul>
+</p>
+
+<div id="note"></div>
+
+<script>
+    // Essayer avec unsecure=<img src=x onerror='alert(1)'/>
+    // Ne pas modifier la ligne suivante/Don't modifiy the next line
+    const unsecure_value = "{{content | safe}}";
+
+    /* 
+        SANITIZE unsecure_value with Trusted Type
+    */
+    const sanitized_value = unsecure_value;
+    const note = document.getElementById('note');
+    note.innerHTML = sanitized_value;
+</script>
+
+<h2>Ressources</h2>
+<ul>
+    <li><a href="https://w3c.github.io/webappsec-trusted-types/dist/spec/">Normes Trusted Types</a></li>
+</ul>
+
+{{ macro.solution("""
+Il faut avoir l'en-tête CSP suivante : <code>Content-Security-Policy: require-trusted-types-for 'script'
+</code>.
+""")}}
+{% endblock %}

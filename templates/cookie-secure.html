@@ -1,0 +1,23 @@
+{% extends "layout/default.html" %}
+{% block title %}Cookie stealing{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+<h1>Secure</h1>
+
+<p>
+    Un cookie <code>secure</code> est uniquement envoyé au serveur avec les requêtes HTTPS.
+    Un cookie a été ajouté à cette page. Activez la directive <code>secure</code> pour
+    empêcher le cookie d'être envoyé en HTTP.
+</p>
+
+<h2>Ressources</h2>
+<ul>
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies">Secure sur le MDN</a></li>
+</ul>
+
+{{ macro.solution("""
+La valeur <strong>secure</strong> est ajoutée à la requête <code>Set-Cookie</code>.
+""")}}
+{% endblock %}

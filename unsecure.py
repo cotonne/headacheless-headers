@@ -31,6 +31,30 @@ def cookie_scope():
     return response
 
 
+@app.route("/cookie-secure")
+def cookie_secure():
+    response = make_response(render_template('cookie-secure.html'))
+    response.set_cookie('SECURE_SESSION_ID', str(uuid.uuid4()))
+    return response
+
+
+@app.route("/cookie-same-site")
+def cookie_same_site():
+    response = make_response(render_template('cookie-same-site.html'))
+    response.set_cookie('SAMESITE_SESSION_ID', str(uuid.uuid4()))
+    return response
+
+
+@app.route("/cookie-scope-attack")
+def cookie_scope_attack():
+    session_id = request.cookies.get('RESTRICTED_SESSION_ID')
+    if session_id is None:
+        result = "Je n'arrive plus à lire le cookie!"
+    else:
+        result = f"Je peux lire le cookie et c'est {session_id}!"
+    return render_template('cookie-scope-attack.html', result=result)
+
+
 @app.route("/csrf-token")
 def csrf_token():
     response = make_response(render_template('csrf-token.html'))
@@ -87,14 +111,9 @@ def csrf_double_submit(token):
     return render_template('csrf-double-submit.html', token="", result=result)
 
 
-@app.route("/cookie-scope-attack")
-def cookie_scope_attack():
-    session_id = request.cookies.get('RESTRICTED_SESSION_ID')
-    if session_id is None:
-        result = "Je n'arrive plus à lire le cookie!"
-    else:
-        result = f"Je peux lire le cookie et c'est {session_id}!"
-    return render_template('cookie-scope-attack.html', result=result)
+@app.route("/xss-injection")
+def trsuted_types():
+    return render_template('xss-injection.html')
 
 
 @app.route("/css-injection")
@@ -105,6 +124,12 @@ def css_injection():
 @app.route("/cdn-hacked")
 def cdn_hacked():
     return render_template('cdn-hacked.html')
+
+
+@app.route("/trusted-types")
+def trusted_types():
+    content = request.args["unsecure"] or "<script>alert('XSS in progress...')</script>"
+    return render_template('trusted-types.html', content=content)
 
 
 @app.route("/hsts")
