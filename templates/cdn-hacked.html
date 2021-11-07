@@ -2,6 +2,8 @@
 {% block title %}My CDN has been hacked!{% endblock %}
 {% block head %}
 {{ super() }}
+<!-- TODO: Modifier la ligne suivante pour intégrer l'attribut integrity="sha384-V48IUtW5WndLt1HtFqeiEFaDLwixxwsfdhp0oh689gtR3pPwUTxUjaAixm1P9aLc"-->
+<!-- Remplacer js/jquery.js par js/jquery-original.js pour vérifier que le script fonctionne -->
 <script src="js/jquery.js"></script>
 <script>
     a_jquery_function();
@@ -18,12 +20,23 @@
 </p>
 
 <p>
-    Corrigez le problème en modifiant <strong>layout/cdn-hacked.html</strong>.
+<h2>TODO</h2>
+Corrigez le problème en modifiant <strong>layout/cdn-hacked.html</strong>.
 
-    Le fichier javascript original est <strong>jquery-original.js</strong>.
+Le fichier javascript original est <strong>jquery-original.js</strong>.
 
-    Le but est d'empêcher le chargement du fichier jquery.js si le contenu a été modifié
-    (Ne remplacer pas jquery.js par jquery-original.js).
+Le but est d'empêcher le chargement du fichier jquery.js si le contenu a été modifié
+(Ne remplacer pas jquery.js par jquery-original.js).
+</p>
+
+<p>
+<h2>Ressources</h2>
+<ul>
+    <li>
+        <a href="https://developer.mozilla.org/fr/docs/Web/Security/Subresource_Integrity">"Subresource Integrity" sur
+            MDN</a>
+    </li>
+</ul>
 </p>
 
 {{ macro.solution("""

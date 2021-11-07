@@ -30,48 +30,52 @@ L'image en question qui permet de réaliser l'attaque:
 </p>
 
 <p>
-    Corrigez le problème en modifiant le fichier <strongle>unsecure.py</strong>:
-        <ul>
-            <li>Accepter uniquement des requêtes de type GET. Supprimer la fonction
-                <strong>csrf_token_transfer_money</strong>
-            </li>
-            <li>Inclure un token CSRF. Pour ce faire, nous utiliserons <a
-                    href="https://flask-wtf.readthedocs.io/en/0.15.x/csrf/#html-forms">Flask WTF</a></li>
-        </ul>
-        Utiliser le formulaire suivant pour tester
-        <div class="container px-4 mt-3 mb-3">
-            <form method="post" action="transfer-money/account/attacker">
-                <input type="hidden" name="csrf_token" value="TODO: csrf_token"></input>
-                <div class="mb-3 row">
-                    <label for="from" class="col-sm-2 form-label">
-                        From:
-                    </label>
-                    <div class="col-sm-10">
-                        <input type="text" name="from" class="form-control" id="from"></input>
-                    </div>
-                </div>
-                <div class="mb-3 row">
-                    <label for="to" class="col-sm-2 form-label">
-                        To:
-                    </label>
-                    <div class="col-sm-10">
-                        <input type="text" name="from" class="form-control" id="to"></input>
-                    </div>
-                </div>
-
-                <div class="mb-3 row">
-                    <label for="amount" class="col-sm-2 form-label">
-                        Amount:
-                    </label>
-                    <div class="col-sm-10">
-                        <input type="number" min="1" name="from" class="form-control" id="amount"></input>
-                    </div>
-                </div>
-                <div class="mb-3 row">
-                    <input class="btn btn-primary" type="submit" value="Submit">
-                </div>
-            </form>
+    Utiliser le formulaire suivant pour tester
+<div class="container px-4 mt-3 mb-3">
+    <form method="post" action="transfer-money/account/attacker">
+        <input type="hidden" name="csrf_token" value="TODO: csrf_token"></input>
+        <div class="mb-3 row">
+            <label for="from" class="col-sm-2 form-label">
+                From:
+            </label>
+            <div class="col-sm-10">
+                <input type="text" name="from" class="form-control" id="from"></input>
+            </div>
         </div>
+        <div class="mb-3 row">
+            <label for="to" class="col-sm-2 form-label">
+                To:
+            </label>
+            <div class="col-sm-10">
+                <input type="text" name="from" class="form-control" id="to"></input>
+            </div>
+        </div>
+
+        <div class="mb-3 row">
+            <label for="amount" class="col-sm-2 form-label">
+                Amount:
+            </label>
+            <div class="col-sm-10">
+                <input type="number" min="1" name="from" class="form-control" id="amount"></input>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <input class="btn btn-primary" type="submit" value="Submit">
+        </div>
+    </form>
+</div>
+</p>
+
+<p>
+<h2>TODO</h2>
+Corrigez le problème en modifiant le fichier <strong>unsecure.py</strong>:
+<ul>
+    <li>Accepter uniquement des requêtes de type GET. Supprimer la fonction
+        <strong>csrf_token_transfer_money</strong>
+    </li>
+    <li>Inclure un token CSRF. Pour ce faire, nous utiliserons <a
+            href="https://flask-wtf.readthedocs.io/en/0.15.x/csrf/#html-forms">Flask WTF</a></li>
+</ul>
 </p>
 <p>
 <h2>Ressources</h2>

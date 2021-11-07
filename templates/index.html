@@ -46,14 +46,18 @@
     </div>
   </div>
 
-
-
   <div class="row mt-3">
     <div>
-      <h1>XSS</h1>
+      <h1>Injection</h1>
+      <p>
+        Les pages web sont sujettes à des attaques de type injection, que ce soit du contenu dynamique,
+        de feuilles de style ou de media. Il est possible de se protéger de nombreuses attaques en
+        explicitant les contenus de confiance. Ce travail est souvent important mais il peut être
+        automatisé et accroit de manière significative la sécurité des pages.
+      </p>
       <ul class="list-group">
         <li class="list-group-item">
-          <a href="xss-injection">XSS Injection</a>
+          <a href="xss-injection?q=Content">XSS Injection</a>
         </li>
         <li class="list-group-item">
           <a href="css-injection">CSS Injection</a>
@@ -89,18 +93,28 @@
         <a href="hsts">HSTS</a>
       </li>
       <li class="list-group-item">
-        <a href="certificate-transparency">Certificate Transparency</a>
+        <a href="#">HKPK (TODO)</a>
+      </li>
+      <li class="list-group-item">
+        <a href="#">Certificate Transparency (TODO)</a>
       </li>
     </div>
   </div>
 
-  <!-- TODO: CORS -->
-  <!-- TODO: Sec Headers -->
+  <div class="row mt-3">
+    <div>
+      <h1>CORS</h1>
+      <li class="list-group-item">
+        <!-- TODO -->
+      </li>
+    </div>
+  </div>
+
   <div class="row mt-3">
     <div>
       <h1>Sec Headers</h1>
       <li class="list-group-item">
-        <a href="sec-headers">Sec Headers</a>
+        <a href="sec-headers">Sec Headers (TODO)</a>
       </li>
     </div>
   </div>
@@ -109,7 +123,22 @@
   <div class="row mt-3">
     <div>
       <h1>Unknown-unknown</h1>
-      <!-- TODO: COOP/COEP/CORP -->
+      <p>
+        <a href="https://connect.ed-diamond.com/MISC/misc-114/spectre-3-ans-apres">Spectre</a>
+        a rendu visible les attaques bas-niveau auxquelles un navigateur peut être sensible.
+        Pour s'en protéger, des en-têtes spécifiques ont été imaginés pour bloquer cette
+        attaque et les suivantes.
+      </p>
+      <!-- TODO: CORB/COOP/COEP/CORP -->
+      <li class="list-group-item">
+        <a href="#">COOP (TODO)</a>
+      </li>
+      <li class="list-group-item">
+        <a href="#">CORB (TODO)</a>
+      </li>
+      <li class="list-group-item">
+        <a href="#">COEP/CORP (TODO)</a>
+      </li>
     </div>
   </div>
   {% endblock %}

@@ -11,6 +11,15 @@ app.jinja_env.cache = None
 # app.config['SECRET_KEY'] = SECRET_KEY
 # csrf = CSRFProtect(app)
 
+# =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* #
+#                                                                  #
+# /!\ Pour ajouter une en-tête:                                    #
+# response = make_response(render_template('template.html'))       #
+# response.headers['MY_HEADER'] = 'value'                          #
+# return response                                                  #
+#                                                                  #
+# =*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=* #
+
 
 @app.route("/")
 def index():
@@ -98,7 +107,6 @@ def csrf_double_submit(token):
         return response
 
     result = 'Failure'
-    print(token)
     if token is not None:
         cookie_token = request.cookies['SESSION_ID_CSRF']
         h.update(token.encode('utf-8'))
@@ -112,8 +120,9 @@ def csrf_double_submit(token):
 
 
 @app.route("/xss-injection")
-def trsuted_types():
-    return render_template('xss-injection.html')
+def xss_injection():
+    content = "Content" if "q" not in request.args else request.args["q"]
+    return render_template('xss-injection.html', content=content)
 
 
 @app.route("/css-injection")
@@ -128,13 +137,14 @@ def cdn_hacked():
 
 @app.route("/trusted-types")
 def trusted_types():
-    content = request.args["unsecure"] or "<script>alert('XSS in progress...')</script>"
+    content = "<script>alert('XSS in progress...')</script>" if "unsecure" not in request.args else request.args[
+        "unsecure"]
     return render_template('trusted-types.html', content=content)
 
 
 @app.route("/hsts")
 def hsts():
-    return render_template('cdn-hacked.html')
+    return render_template('hsts.html')
 
 # UTILS
 

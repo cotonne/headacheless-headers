@@ -67,24 +67,19 @@
 </form>
 <p>
   Ressources:
-  <ul>
-    <li><a href="https://developer.mozilla.org/fr/docs/Web/CSS/Attribute_selectors">MDN Attribute_selectors</a></li>
-  </ul>
+<ul>
+  <li><a href="https://developer.mozilla.org/fr/docs/Web/CSS/Attribute_selectors">MDN Attribute_selectors</a></li>
+  <li><a href="https://developer.mozilla.org/fr/docs/Web/HTTP/Headers/Content-Security-Policy/style-src">"CSP:
+      style-src" sur MDN</a></li>
+</ul>
 </p>
-<div class="accordion" id="accordionExample">
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingOne">
-      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
-        aria-expanded="true" aria-controls="collapseOne">
-        Solution
-      </button>
-    </h2>
-    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
-      data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        Le paramètre de CSP à utiliser est <strong>style</strong>.
-      </div>
-    </div>
-  </div>
-</div>
+{{ macro.solution("""
+Plusieurs directives CSP peuvent être utilisées conjointement:
+<ul>
+  <li><strong>style-src</strong>: il convient de spécifier les urls de confiance, les nonces ou les hashes des feuilles
+    de style</li>
+  <li><strong>img-src</strong> et <strong>media-src</strong>: de même, il est nécessaire de lister les médias à utiliser
+  </li>
+</ul>
+""")}}
 {% endblock %}

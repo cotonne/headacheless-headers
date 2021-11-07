@@ -1,5 +1,5 @@
 {% extends "layout/default.html" %}
-{% block title %}Cookie stealing{% endblock %}
+{% block title %}XSS{% endblock %}
 {% block head %}
 {{ super() }}
 {% endblock %}
@@ -7,15 +7,99 @@
 <h1>XSS Injection</h1>
 
 <p>
-    TODO
+    XSS (pour Cross-Site Scripting) est une attaque où du contenu
+    est injecté dans une page, ce qui permet de faire effectuer au
+    navigateur des actions comme des redirections vers d'autres sites,
+    modifier l'affichage (dephasing), voir effectuer des modifications
+    non voulues sur le serveur ou voler des identifiants de connexion.
 </p>
 
-<h2>Ressources</h2>
+
+<p>
+    Trois types d'attaque XSS sont possibles:
 <ul>
-    <li>TODO</li>
+    <li><strong>Reflected XSS</strong>: le contenu malveillant est directement retourné par le serveur.</li>
+    <li><strong>Stored-based XSS</strong>: le contenu malveillant est stocké dans la base et affiché ultérieurement</li>
+    <li><strong>DOM XSS</strong>: le contenu est injecté directement dans la page, sans intéraction avec le serveur.
+        Cela concerne généralement les applications faisant un usage massif du javascript.</li>
+</ul>
+</p>
+
+<p>
+    La page contient deux failles XSS :
+<ul>
+    <li>Reflected: le paramètre <strong>q</strong> de l'URL est directement injecté dans la page. </li>
+    <li>DOM- based: le formulaire suivant modifie directement la page. </li>
 </ul>
 
+Dans les deux cas, essayez avec la valeur: <code>&lt;img src=x onerror='alert(1)'/&gt;</code>
+</p>
+
+
+<p>
+<h2>DOM XSS Form</h2>
+<div>
+    La valeur du paramètre q: {{ content | safe}}
+</div>
+</p>
+
+
+<p>
+    <script>
+        function updateNote(e) {
+            console.log(e);
+            document.getElementById('note').innerHTML = e.value;
+        }
+    </script>
+<h2>DOM XSS Form</h2>
+<div class="container px-4 mt-3 mb-3">
+    <div class="mb-3 row">
+        <label for="from" class="col-sm-2 form-label">
+            Text:
+        </label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" onchange="updateNote(this)"></input>
+        </div>
+    </div>
+    <div>
+        Vous avez entré le texte suivant:
+        <div id="note"></div>
+    </div>
+</div>
+</p>
+
+<p>
+<h2>TODO</h2>
+<strong>Content-Security Policy</strong> sont des en-têtes HTTP servant à définir quelles données
+peuvent être chargées par une page. En listant explicitement les sources et les modes d'utilisation,
+ces en-têtes bloquent de nombreuses attaques.
+Modifier la fonction <code>xss_injection</code> du fichier <code>unsecure.py</code>
+pour envoyer l'en-tête CSP bloquant ces attaques.
+</p>
+
+<p>
+<h2>Ressources</h2>
+<ul>
+    <li><a href="https://developer.mozilla.org/fr/docs/Web/HTTP/Headers/Content-Security-Policy/script-src">"CSP:
+            script-src" sur MDN</a></li>
+</ul>
+
+</p>
+
 {{ macro.solution("""
-TODO
+Si la page ne contient pas de contenu dynamique, l'en-tête <strong>script-src</strong>
+peut être défini avec <strong>none</strong> pour bloquer tout contenu.
+On évitera les balises script sans hash ou nonce.
+En complément, il faut aussi:
+<ul>
+    <li>
+        Développer de manière sécurisée en banissant les méthodes comme innerHTML ou eval côté javascript ou l'usage de
+        safe côté Python/Flask (ou équivalent)</li>
+    <li>
+        S'il n'est possible de s'en passer, il faut gérer correctement le contenu via une liste blanche ou un fonction
+        de purification (sanitization) ou d'échappement. Les frameworks ont souvent une approche
+        &quot;Secure by default&quot; où tout contenu est échappé par défaut.
+    </li>
+</ul>
 """)}}
 {% endblock %}

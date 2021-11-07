@@ -15,6 +15,9 @@
     ne dépendent plus d'un serveur gérant une session.
 </p>
 
+<p>
+<h2>TODO</h2>
+Vous pouvez tenter de manipuler de l'URL pour voir s'il est accepté par le serveur.
 {% if token == "" %}
 {% if result == "Success" %}
 <div class="alert alert-success" role="alert">
@@ -26,7 +29,8 @@
 </div>
 {% endif %}
 {% else %}
-
+Le code est dans la fonction <code>csrf_double_submit</code> du fichier unsecure.py.
+</p>
 <p>
     Utiliser le formulaire suivant pour tester le double submit cookie:
 <div class="container px-4 mt-3 mb-3">
