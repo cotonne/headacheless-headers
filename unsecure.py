@@ -146,6 +146,11 @@ def trusted_types():
 def hsts():
     return render_template('hsts.html')
 
+@app.route("/certificate-transparency")
+def certificate_transparency():
+    return render_template('certificate-transparency.html')
+
+
 # UTILS
 
 

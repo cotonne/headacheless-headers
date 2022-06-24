@@ -1,0 +1,41 @@
+{% extends "layout/default.html" %}
+{% block title %}Certificate Transparency{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+<h1>Certificate Transparency</h1>
+
+<p>
+    Certificate Transparency est un mécanisme qui permet de d'afficher les certificats publiés. Le but est de rendre visible la création de nouveaux certificats.
+    Ce système a été créé pour contrer plusieurs types d'attaques:
+    <ul>
+	    <li>Typosquatting: un attaquant peut tenter de créer un nom de site ressemblant fortement à un site connu en utilisant des lettres d'un autre alphabet (comme <a href="https://www.xn--80ak6aa92e.com/">https://www.аррӏе.com/</a>) ou en jouant avec des lettres proches (Apple et Appie)</li>
+	    <li>Vol de certificats maître, génération de certificats invalides: la chaîne de confiance de la certification repose sur des certificats publiques racine présents sur chacun des postes. Des exemples existent où les <a hreaf="https://en.wikipedia.org/wiki/DigiNotar#Issuance_of_fraudulent_certificates"/>certificats privés racines ont pu être volés</a>, permettant à un attaquant de générer le certificat qu'il souhaitait.</li>
+    </ul>
+
+    En scrutant les <a href="https://crt.sh/?q=google.com">logs de Certificate Transparency</a>, une entreprise est capable de détecter ces attaques.
+
+    Certains navigateurs forcent la présence des informations liées à Certificate Transparency.
+
+</p>
+
+<p>
+    Lancer le serveur avec le mode HTTPS et activer la vérification de Certificate Transparency.
+    Pour ce faire:
+<ul>
+    <li>Ajouter l'en-tête Expect-CT en modifiant la fonction <strong>certificate_transparency</strong> du fichier
+        <strong>unsecure.py</strong>.
+    </li>
+</ul>
+</p>
+
+<h2>Ressources</h2>
+<ul>
+    <li><a href="https://chromium.googlesource.com/chromium/src/+/master/net/docs/certificate-transparency.md">Certificate Transparency</a></li>
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Expect-CT">Expect-CT</a></li>
+</ul>
+{{ macro.solution("""
+Il faut avoir l'en-tête CSP suivante : <code>Expect-CT: report-uri=\"<uri>\", enforce, max-age=36000000</code>.
+""")}}
+{% endblock %}
