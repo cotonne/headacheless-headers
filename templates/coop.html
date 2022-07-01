@@ -1,0 +1,79 @@
+{% extends "layout/default.html" %}
+{% block title %}Cross-Origin Isolated{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+<h1>Cross-Origin Isolated</h1>
+
+<p>
+    <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cross-Origin-Opener-Policy">
+        Cross-Origin Opener Policy
+    </a>
+    ou <strong>COOP</strong> est un mécanisme qui permet d'isoler la page ouverte via une popup.
+    Cela permet d'éviter qu'une popup ouverte vers un site de l'attaquant puisse lire le contenu
+    de la mémoire si une faille comme Spectre se reproduit. Le navigateur crée un nouveau contexte
+    de navigation (browsing context group), pouvant être implémenté sous la forme d'un processus
+    séparé.
+</p>
+<p>
+    En n'étant pas isolé, le navigateur empêche l'accès à certains éléments comme <code>SharedArrayBuffer</code>
+    ou <code>Performance.now()</code> qui sont des éléments essentiels pour des attaques comme <strong>Spectre</strong>.
+</p>
+<p>
+    <strong>
+        COOP Status <span id="coop-status">unset</span>
+    </strong>
+</p>
+<script>
+    const status = document.getElementById("coop-status");
+    let sbStatus;
+    try {
+        const sba = new SharedArrayBuffer(1024);
+        sbStatus = "SharedArrayBuffer is defined";
+    } catch (e) {
+        sbStatus = "SharedArrayBuffer is undefined";
+    }
+    if (crossOriginIsolated) {
+        status.innerText = "Popup is cross-origin isolated (" + sbStatus + ")";
+    } else {
+        status.innerText = "Popup is NOT cross-origin isolated (" + sbStatus + ")";
+    }
+</script>
+<p>
+<h2>Votre TODO-list</h2>
+<ul>
+    <li>Isoler le site en modifiant la méthode <code>coop</code> dans le fichier unsecure.py. Pour ce faire, configurer
+        correctement les balises <code>'Cross-Origin-Opener-Policy'</code> et
+        <code>'Cross-Origin-Embedder-Policy'</code>
+    </li>
+</ul>
+</p>
+<h2>Ressources</h2>
+<ul>
+    <li>
+        <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cross-Origin-Opener-Policy">
+            COOP sur MDN
+        </a>
+    </li>
+    <li>
+        <a href="https://html.spec.whatwg.org/multipage/origin.html#the-coop-headers">
+            Spécifications
+        </a>
+    </li>
+</ul>
+
+{{ macro.solution("""
+<p>
+    Code Flask
+    <code style=\"display: block; white-space: pre-wrap\">
+        @app.route(\"/coop\")
+        def coop():
+            response = make_response(render_template('coop.html'))
+            response.headers['Cross-Origin-Opener-Policy'] = 'same-origin'
+            response.headers['Cross-Origin-Embedder-Policy'] = 'require-corp'
+            return response 
+    </code>
+</p>
+""")}}
+{% endblock %}

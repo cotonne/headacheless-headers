@@ -1,0 +1,42 @@
+{% extends "layout/default.html" %}
+{% block title %}CORB{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+<h1>CORB</h1>
+
+<p>
+    [Cross-Origin Resource Blocker](https://www.chromium.org/Home/chromium-security/corb-for-developers/)
+    ou <strong>CORB</strong> est un mécanisme qui permet d'empêcher le chargement de ressources par le
+    navigateur dans certains cas.
+</p>
+<p>
+    Par exemple, l'image suivante a pour source un fichier JSON. Normalement, le navigateur peut,
+    dans certains cas, charger le fichier et tenter de deviner son type pour voir s'il peut quand
+    même l'afficher. En faisant cela, le contenu du fichier est chargé en mémoire et pourrait être
+    accéder via des failles comme spectre.
+</p>
+<img src="data.json>" />
+<p>
+    CORB doit bloquer le chargement du fichier en indiquant que le type MIME du fichier n'est pas
+    celui d'une image.
+</p>
+<p>
+<h2>TODO</h2>
+<ul>
+    <li>Ouvrir cette page dans CHROME.</li>
+    <li>Ouvrir la console de développement et regarder l'onglet "console".</li>
+</ul>
+</p>
+
+<h2>Ressources</h2>
+<ul>
+    <li><a href="https://www.chromium.org/Home/chromium-security/corb-for-developers/">CORB</a></li>
+</ul>
+
+{{ macro.solution("""
+La directive <strong>SameSite</strong> avec la valeur <code>Strict</code> est ajoutée à la requête
+<code>Set-Cookie</code>.
+""")}}
+{% endblock %}

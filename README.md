@@ -2,7 +2,13 @@
 
 The aim of this application is to teach why and how configure important HTTP headers related to security.
 
+![Main screen](images/home.png)
+
 # Development
+
+## License
+
+[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
 
 ## Installation
 

